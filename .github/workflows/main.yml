@@ -10,18 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download and Extract JMeter
-        run: |
-          wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
-          ls
-          tar -xf apache-jmeter-5.4.1.tgz
-          
-
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           java-version: 11  # Adjust this to the desired Java version
           distribution: 'adopt'
+
+      - name: Download and Extract JMeter
+        run: |
+          wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
+          tar -xzf apache-jmeter-5.4.1.tgz
 
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
