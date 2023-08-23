@@ -30,8 +30,8 @@ jobs:
           
       - name: Generate HTML Report
         run: |
-          # Generate the HTML report using the downloaded result.jtl
-          jmeter -g result.jtl -o report_folder
+          # Generate the HTML report using the downloaded result.jtl file
+          jmeter -g artifacts/result.jtl -o report_folder
 
       - name: Upload Report as Artifact
         uses: actions/upload-artifact@v2
