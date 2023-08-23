@@ -27,11 +27,17 @@ jobs:
           mkdir -p artifacts
           # Move the result.jtl file to the artifacts directory
           mv result.jtl artifacts/
-          
-      - name: Generate HTML Report
+      - name: Download JMeter Plugins
         run: |
-          # Generate the HTML report using the downloaded result.jtl file
-          jmeter -g ./artifacts/result.jtl -o ./report_folder
+          # Download and unzip JMeter Plugins distribution
+          wget https://jmeter-plugins.org/get/ -O jmeter-plugins.zip
+          unzip jmeter-plugins.zip -d jmeter-plugins
+
+      - name: Generate Report
+        run: |
+          # Generate HTML report
+          java -jar jmeter-plugins/CMDRunner.jar --tool Reporter --generate-csv your-test-results.jtl --input-jtl ./artifacts/result.jtl --plugin-type AggregateReport --generate-html report-output     
+
       - name: Upload Report as Artifact
         uses: actions/upload-artifact@v2
         with:
