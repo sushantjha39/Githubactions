@@ -26,7 +26,7 @@ jobs:
         run: |
           # Download the artifact containing result.jtl
           # The artifact name should match the one specified in actions/upload-artifact
-          wget https://github.com/sushantjha39/Githubactions/actions/runs/5948187486/download -O results.zip
+          wget https://github.com/sushantjha39/Githubactions/suites/15384561565/artifacts/878449633/download -O results.zip
           
           # Unzip the artifact
           unzip results.zip
