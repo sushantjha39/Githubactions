@@ -21,9 +21,20 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
+      
+      - name: Upload Report as Artifact
+        uses: actions/upload-artifact@v2
+        
       - name: Generate HTML Report
         run: |
-          # Assume your .jtl file is named result.jtl and located in the repository root
+          # Download the artifact containing result.jtl
+          # The artifact name should match the one specified in actions/upload-artifact
+          wget https://github.com/sushantjha39/Githubactions/actions/runs/5948187486/download -O results.zip
+          
+          # Unzip the artifact
+          unzip results.zip
+
+          # Generate the HTML report using the downloaded result.jtl
           jmeter -g result.jtl -o report_folder
 
       - name: Upload Report as Artifact
