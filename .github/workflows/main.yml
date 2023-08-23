@@ -1,30 +1,23 @@
-name: PerfAction for JMeter
+name: Run JMeter Tests
 on:
   push:
     branches:
       - main
-  workflow_dispatch: null
+
 jobs:
-  run_performance_tests:
+  run_tests:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2
-      - name: PerfAction for JMeter
-        uses: QAInsights/PerfAction@v3.1
-        with:
-          test-plan-path: './search.jmx'
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run JMeter Test
+        run: |
+          docker run --rm -v $PWD:/jmeter -w /jmeter justb4/jmeter:latest jmeter -n -t search.jmx -l result.jtl -e -o report
+
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
           path: result.jtl
-      - name: Generate JMeter Report
-        run: |
-          ./jmeter.bat -n -t search.jmx -l result.jtl -e -o report
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: '${{ secrets.DEPLOYEDGITHUBKEY }}'
-          publish_dir: ./report_folder
