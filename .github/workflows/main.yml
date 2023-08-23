@@ -18,21 +18,30 @@ jobs:
           test-plan-path: './search.jmx'
       - name: Upload Results
         uses: actions/upload-artifact@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          name: jmeter-results
-          path: result.jtl
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Download and Install JMeter
+        run: |
+          wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
+          tar -xzf apache-jmeter-5.4.1.tgz
+          rm apache-jmeter-5.4.1.tgz
+
+      - name: Run JMeter Test
+        run: |
+          cd apache-jmeter-5.4.1/bin
+          ./jmeter -n -t ./search.jmx -l .github/results.jtl
+       
       - name: Save Result in GitHub Folder
         run: |
           # Create a directory within the repository workspace
           mkdir -p artifacts
           # Move the result.jtl file to the artifacts directory
           mv result.jtl artifacts/
-      - name: Download JMeter Plugins
-        run: |
-          # Download and unzip JMeter Plugins distribution
-          wget https://jmeter-plugins.org/get/ -O jmeter-plugins.zip
-          unzip jmeter-plugins.zip -d jmeter-plugins
-
+     
       - name: Generate Report
         run: |
           # Generate HTML report
