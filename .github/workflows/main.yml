@@ -21,9 +21,6 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
-      - name: Compress result.jtl into ZIP
-        run: |
-          zip -r results.zip result.jtl
       - name: Save Result in GitHub Folder
         run: |
           # Create a directory within the repository workspace
@@ -31,16 +28,8 @@ jobs:
           # Move the result.jtl file to the artifacts directory
           mv result.jtl artifacts/
           
-   
       - name: Generate HTML Report
         run: |
-          # Download the artifact containing result.jtl
-          # The artifact name should match the one specified in actions/upload-artifact
-          wget ./results.zip
-          
-          # Unzip the artifact
-          unzip results.zip
-
           # Generate the HTML report using the downloaded result.jtl
           jmeter -g result.jtl -o report_folder
 
