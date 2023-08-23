@@ -24,6 +24,12 @@ jobs:
       - name: Compress result.jtl into ZIP
         run: |
           zip -r results.zip result.jtl
+      - name: Save Result in GitHub Folder
+        run: |
+          # Create a directory within the repository workspace
+          mkdir -p artifacts
+          # Move the result.jtl file to the artifacts directory
+          mv result.jtl artifacts/
           
       - name: Upload ZIP as Artifact
         uses: actions/upload-artifact@v2
