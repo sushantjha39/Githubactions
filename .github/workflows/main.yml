@@ -28,7 +28,6 @@ jobs:
           rm apache-jmeter-5.6.2.tgz
       - name: Run JMeter Test
         run: |
-          cd apache-jmeter-5.6.2/bin
           ./apache-jmeter-5.6.2/bin/jmeter -n -t ./search.jmx -l .github/results.jtl
         working-directory: ${{ github.workspace }}
        
