@@ -21,7 +21,15 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
-            
+      - name: Compress result.jtl into ZIP
+        run: |
+          zip -r results.zip result.jtl
+          
+      - name: Upload ZIP as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: jmeter-results-zip
+          path: results.zip  
       - name: Generate HTML Report
         run: |
           # Download the artifact containing result.jtl
