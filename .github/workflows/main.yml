@@ -21,10 +21,7 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
-      
-      - name: Upload Report as Artifact
-        uses: actions/upload-artifact@v2
-        
+            
       - name: Generate HTML Report
         run: |
           # Download the artifact containing result.jtl
