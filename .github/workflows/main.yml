@@ -1,5 +1,5 @@
 name: PerfAction for JMeter
-'on':
+on:
   push:
     branches:
       - main
@@ -9,26 +9,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11  # Adjust this to the desired Java version
+          distribution: 'adopt'
+
+      - name: Install JMeter
+        run: |
+          wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
+          tar -xf apache-jmeter-5.4.1.tgz
+          export PATH=$PATH:$PWD/apache-jmeter-5.4.1/bin
+          jmeter --version
+
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
         with:
           test-plan-path: ./search.jmx
+          java-version: 11  # Adjust this to the desired Java version
+
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
           path: result.jtl
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-          distribution: 'adopt'
+
       - name: Generate JMeter Report
-        run: >
-          jmeter -n -t search.jmx -l result.jtl -e -o
-          report_folder
+        run: |
+          jmeter -n -t search.jmx -l result.jtl -e -o report_folder
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: '${{ secrets.DEPLOYEDGITHUBKEY}}'
+          deploy_key: '${{ secrets.ACTIONS_DEPLOY_KEY }}'
           publish_dir: ./report_folder
