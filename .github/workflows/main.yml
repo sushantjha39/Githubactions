@@ -1,29 +1,33 @@
 name: PerfAction for JMeter
-
-on:
+'on':
   push:
     branches:
       - main
-  workflow_dispatch:
-
+  workflow_dispatch: null
 jobs:
   run_performance_tests:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v2
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
         with:
-          test-plan-path: './search.jmx'
+          test-plan-path: ./search.jmx
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
           path: result.jtl
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+      - name: Generate JMeter Report
+        run: >
+          jmeter -n -t search.jmx -l result.jtl -e -o
+          report_folder
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          deploy_key: '${{ secrets.Githubdeploykey }}'
           publish_dir: ./report_folder
-          publish_branch: main  # Replace 'main' with your desired branch name
