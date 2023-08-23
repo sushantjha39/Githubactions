@@ -29,5 +29,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: '${{ secrets.Githubdeploykey }}'
+          deploy_key: '${{ secrets.DEPLOYEDGITHUBKEY}}'
           publish_dir: ./report_folder
