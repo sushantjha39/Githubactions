@@ -20,6 +20,11 @@ jobs:
         run: |
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
           tar -xzf apache-jmeter-5.4.1.tgz
+      - name: Print Debug Info
+        run: |
+           pwd
+            ls -l
+
 
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
