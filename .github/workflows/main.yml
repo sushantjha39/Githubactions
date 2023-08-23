@@ -12,9 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run JMeter Test
+      - name: Download and Install JMeter
         run: |
-          docker run --rm -v $PWD:/jmeter -w /jmeter justb4/jmeter:latest jmeter -n -t search.jmx -l result.jtl -e -o report
+          # Download JMeter archive
+          wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
+          
+          # Extract JMeter archive
+          tar -xzf apache-jmeter-5.4.1.tgz
+
+      - name: List JMeter Directory Contents
+        run: |
+          ls -l apache-jmeter-5.4.1/
 
       - name: Upload Results
         uses: actions/upload-artifact@v2
