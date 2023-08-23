@@ -19,7 +19,7 @@ jobs:
           name: jmeter-results
           path: result.jtl
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v8.0
         with:
           distribution: adopt
       - name: Generate JMeter Report
