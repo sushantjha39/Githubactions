@@ -7,27 +7,18 @@ on:
 jobs:
   run_performance_tests:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11  # Adjust this to the desired Java version
-          distribution: 'adopt'
-
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
         with:
-          test-plan-path: ./search.jmx
-          java-version: 11  # Adjust this to the desired Java version
-
+          test-plan-path: './search.jmx'
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
           path: result.jtl
-
       - name: Generate JMeter Report
         run: |
           ./apache-jmeter-5.4.1/bin/jmeter -n -t search.jmx -l result.jtl -e -o report
