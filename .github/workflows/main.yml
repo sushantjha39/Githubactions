@@ -37,7 +37,7 @@ jobs:
         run: |
           # Generate HTML report
           java -jar ./jmeter-plugins/CMDRunner.jar --tool Reporter --generate-csv ./artifacts/result.jtl --input-jtl ./artifacts/result.jtl --plugin-type AggregateReport --generate-html ./report-output
-        working-directory: $GITHUB_WORKSPACE  # Set the working directory to the root of your repository
+        working-directory: .github  # Set the working directory to the root of your repository
 
       - name: Upload Report
         uses: actions/upload-artifact@v2
