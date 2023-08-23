@@ -11,19 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2
-      - name: PerfAction for JMeter
-        uses: QAInsights/PerfAction@v3.1
-        with:
-          test-plan-path: './search.jmx'
-      - name: Upload Results
-        uses: actions/upload-artifact@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '11'
-
+          
       - name: Download and Install JMeter
         run: |
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.4.1.tgz
@@ -33,23 +29,24 @@ jobs:
       - name: Run JMeter Test
         run: |
           cd apache-jmeter-5.4.1/bin
-          ./jmeter -n -t ./search.jmx -l .github/results.jtl
+          ./jmeter -n -t ../search.jmx -l ../.github/results.jtl
+        working-directory: ${{ github.workspace }}
        
       - name: Save Result in GitHub Folder
         run: |
           # Create a directory within the repository workspace
           mkdir -p artifacts
           # Move the result.jtl file to the artifacts directory
-          mv result.jtl artifacts/
+          mv .github/results.jtl artifacts/
      
       - name: Generate Report
         run: |
           # Generate HTML report
-          java -jar ./jmeter-plugins/CMDRunner.jar --tool Reporter --generate-csv ./artifacts/result.jtl --input-jtl ./artifacts/result.jtl --plugin-type AggregateReport --generate-html ./report-output
-        working-directory: .github  # Set the working directory to the root of your repository
+          java -jar ./apache-jmeter-5.4.1/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report-output
+        working-directory: ${{ github.workspace }}
 
       - name: Upload Report
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: ./report-output 
+          path: ./report-output
