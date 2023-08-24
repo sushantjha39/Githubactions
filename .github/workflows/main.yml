@@ -49,3 +49,10 @@ jobs:
         with:
           name: test-report
           path: ./report-output
+
+      - name: Commit and Push HTML Report to New Branch
+        run: |
+          git checkout -b Report
+          git add report-output
+          git commit -m "Add HTML report"
+          git push origin Report
