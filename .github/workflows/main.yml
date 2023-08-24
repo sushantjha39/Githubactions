@@ -54,7 +54,7 @@ jobs:
       - name: Commit and Push HTML Report to New Branch
         run: |
           git checkout -b Report
-          git pull
+          git pull origin Report
           git add report-output
           git commit -m "Add HTML report"
           git remote set-url origin "https://${{ secrets.PAT_TOKEN }}@github.com/sushantjha39/Githubactions.git"
