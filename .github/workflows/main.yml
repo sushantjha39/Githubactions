@@ -58,7 +58,6 @@ jobs:
           git pull origin Report --allow-unrelated-histories
           git add report-output
           git commit -m "Add HTML report"
-          git remote set-url origin "https://${{ secrets.PAT_TOKEN }}@github.com/sushantjha39/Githubactions.git"
           git push origin Report
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
