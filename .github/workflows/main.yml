@@ -51,13 +51,8 @@ jobs:
           name: test-report
           path: ./report-output
 
-      - name: Commit and Push HTML Report to New Branch
-        run: |
-          git checkout -b Report
-          git config pull.rebase false
-          git pull origin Report --allow-unrelated-histories
-          git add report-output
-          git commit -m "Add HTML report"
-          git push origin Report
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          publish_dir: ./report-output
