@@ -30,8 +30,9 @@ jobs:
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
           sed -i 's/^user.timezone=.*/user.timezone=Asia/Kolkata/' user.properties
-
-
+      - name: List Files in JMeter Installation
+        run: ls -R apache-jmeter-5.6.2
+             sed -i 's/^user.timezone=.*/user.timezone=Asia/Kolkata/' user.properties
       - name: Run JMeter Test
         run: |
           ./apache-jmeter-5.6.2/bin/jmeter -n -t ./search.jmx -l .github/results.jtl
