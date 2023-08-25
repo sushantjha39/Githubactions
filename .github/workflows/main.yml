@@ -40,19 +40,4 @@ jobs:
           mkdir -p artifacts
           mv .github/results.jtl artifacts/
 
-      - name: Generate Report
-        run: |
-          java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report-output
-        working-directory: ${{ github.workspace }}
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: ./report-output
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          publish_dir: ./report-output
+   
