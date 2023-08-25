@@ -8,6 +8,7 @@ on:
 jobs:
   run_performance_tests:
     runs-on: ubuntu-latest
+    TZ: Asia/Kolkata
 
     steps:
       - name: Configure Git Identity
@@ -17,11 +18,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set Timezone to Asia/Kolkata (Indian Standard Time)
-        uses: szenius/set-timezone@v1.2
-        with:
-          timezone: Asia/Kolkata
 
       - name: Set up Java
         uses: actions/setup-java@v2
