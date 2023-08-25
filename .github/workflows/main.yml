@@ -8,7 +8,8 @@ on:
 jobs:
   run_performance_tests:
     runs-on: ubuntu-latest
-    TZ: Asia/Kolkata
+    env:
+      TZ: Asia/Kolkata
 
     steps:
       - name: Configure Git Identity
