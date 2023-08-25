@@ -12,7 +12,7 @@ jobs:
       - name: Set Timezone to Asia/Kolkata
         uses: szenius/set-timezone@v1.2
         with:
-          timezoneLinux: "Asia/Singapore"
+          timezoneLinux: "Asia/Kolkata"
 
       - name: Configure Git Identity
         run: |
