@@ -30,10 +30,10 @@ jobs:
 
       - name: Fetch PR Title
         id: pr_info
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          PR_TITLE="${{ github.event }}"
-          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
-          echo "PR_TITLE: $PR_TITLE"
+          echo "$GITHUB_CONTEXT"
 
 
       - name: Download and Install JMeter
