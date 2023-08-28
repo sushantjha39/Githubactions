@@ -29,7 +29,10 @@ jobs:
           java-version: '11'
       - name: Fetch PR Title
         id: pr_info
-        run: echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+        run: |
+          PR_TITLE=${{ github.event.pull_request.title }}
+          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
+          echo "PR_TITLE: $PR_TITLE"
 
       - name: Download and Install JMeter
         run: |
