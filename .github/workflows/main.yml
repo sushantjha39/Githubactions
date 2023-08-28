@@ -13,6 +13,15 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Asia/Kolkata"
+      
+      - name: Debug PR Event
+        run: |
+          echo "PR Event: ${{ toJson(github.event) }}"
+          
+      - name: Print Pull Request Title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "Pull Request Title: $PR_TITLE"
 
       - name: Configure Git Identity
         run: |
@@ -34,6 +43,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
+      
 
 
       - name: Download and Install JMeter
