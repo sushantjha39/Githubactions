@@ -37,8 +37,7 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "$GITHUB_CONTEXT"
-      
+          echo "$GITHUB_CONTEXT"       
 
 
       - name: Download and Install JMeter
@@ -46,12 +45,9 @@ jobs:
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
-          
-          - name: Print Pull Request Title
-          run: |
+          ls -l
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "Pull Request Title: $PR_TITLE"
-          ls -l
           echo "Before sed:"
           sed -i '/^#.*jmeter.reportgenerator.report_title/s/^#//' apache-jmeter-5.6.2/bin/user.properties
           cat apache-jmeter-5.6.2/bin/user.properties          
