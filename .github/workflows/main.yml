@@ -29,7 +29,7 @@ jobs:
           java-version: '11'
       - name : Print Title of PR
         env:
-          TITLE: ${{ github.event.pull_request.title }}
+          TITLE: ${{ github.event }}
         run: echo The Title of your PR is ${{ env.TITLE }}
 
       
