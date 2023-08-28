@@ -31,6 +31,10 @@ jobs:
         with:
           distribution: adopt
           java-version: '11'
+      - name: Fetch PR Creator
+        run: |
+          PR_CREATOR="${{ github.event.pull_request.user.login }}"
+          echo "PR Creator: $PR_CREATOR"
 
       - name: Fetch PR Title
         id: pr_info
