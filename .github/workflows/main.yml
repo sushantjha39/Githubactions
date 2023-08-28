@@ -18,11 +18,6 @@ jobs:
         run: |
           echo "PR Event: ${{ toJson(github.event) }}"
           
-      - name: Print Pull Request Title
-        run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          echo "Pull Request Title: $PR_TITLE"
-
       - name: Configure Git Identity
         run: |
           git config --global user.email "sushantjha39@gmail.com"
@@ -51,6 +46,10 @@ jobs:
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
+          
+          - name: Print Pull Request Title
+          run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
           echo "Pull Request Title: $PR_TITLE"
           ls -l
           echo "Before sed:"
