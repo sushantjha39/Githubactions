@@ -51,6 +51,7 @@ jobs:
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
+          echo "Pull Request Title: $PR_TITLE"
           ls -l
           echo "Before sed:"
           sed -i '/^#.*jmeter.reportgenerator.report_title/s/^#//' apache-jmeter-5.6.2/bin/user.properties
