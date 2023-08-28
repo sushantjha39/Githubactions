@@ -34,7 +34,8 @@ jobs:
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
           ls -l
-          sed -i 's/^jmeter.reportgenerator.report_title=.*/jmeter.reportgenerator.report_title=Performance Trial Testing/' apache-jmeter-5.6.2/bin/user.properties
+          echo "Before sed:"
+          cat apache-jmeter-5.6.2/bin/user.properties
           
       - name: Run JMeter Test
         run: |
