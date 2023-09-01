@@ -50,7 +50,7 @@ jobs:
           
       - name: Run JMeter Test
         run: |
-          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./Adduser.jmx -l .github/results.jtl
+          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./search.jmx -l .github/results.jtl
         working-directory: ${{ github.workspace }}
 
       - name: Save Result in GitHub Folder
@@ -60,17 +60,17 @@ jobs:
 
       - name: Generate Report
         run: |
-          java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report-output
+          java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report
         working-directory: ${{ github.workspace }}
 
       - name: Upload Report
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: ./report-output
+          path: ./report
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
-          publish_dir: ./report-output
+          publish_dir: ./report
