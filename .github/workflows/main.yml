@@ -60,6 +60,8 @@ jobs:
 
       - name: Generate Report
         run: |
+          mkdir -p report
+          ls -l
           java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report
         working-directory: ${{ github.workspace }}
 
