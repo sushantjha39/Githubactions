@@ -1,9 +1,6 @@
 name: PerfAction for JMeter
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -16,7 +13,10 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Asia/Kolkata"
-     
+      
+      - name: Debug PR Event
+        run: |
+          echo "PR Event: ${{ toJson(github.event) }}"
           
       - name: Configure Git Identity
         run: |
@@ -65,20 +65,10 @@ jobs:
         run: |
           mkdir -p artifacts
           mv .github/results.jtl artifacts/
-
-
-      - name: Clear Report Folder
-        run: |
-          rm -rf ./report-output
-
-
       - name: Generate Report
         run: |
-          ls -l
           java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report-output
-          ls -l
         working-directory: ${{ github.workspace }}
-        
 
       - name: Upload Report
         uses: actions/upload-artifact@v2
