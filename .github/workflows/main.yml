@@ -1,7 +1,7 @@
 name: PerfAction for JMeter
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -13,12 +13,15 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Asia/Kolkata"
-
+      
+      - name: Debug PR Event
+        run: |
+          echo "PR Event: ${{ toJson(github.event) }}"
+          
       - name: Configure Git Identity
         run: |
           git config --global user.email "sushantjha39@gmail.com"
           git config --global user.name "sushantjha39@"
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -27,25 +30,30 @@ jobs:
         with:
           distribution: adopt
           java-version: '11'
-
+      - name: Fetch PR Creator
+        run: |
+          PR_CREATOR="${{ github.event.pull_request.user.login }}"
+          echo "PR Creator: $PR_CREATOR"
       - name: Fetch PR Title
         id: pr_info
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "$GITHUB_CONTEXT"
-
-
+          echo "$GITHUB_CONTEXT"       
       - name: Download and Install JMeter
         run: |
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
           tar -xzf apache-jmeter-5.6.2.tgz
           rm apache-jmeter-5.6.2.tgz
           ls -l
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "Pull Request Title: $PR_TITLE"
           echo "Before sed:"
           sed -i '/^#.*jmeter.reportgenerator.report_title/s/^#//' apache-jmeter-5.6.2/bin/user.properties
           cat apache-jmeter-5.6.2/bin/user.properties          
-          sed -i "s/^jmeter.reportgenerator.report_title=.*/jmeter.reportgenerator.report_title=$PR_TITLE/" apache-jmeter-5.6.2/bin/user.properties
+          sed -i "s/^jmeter.reportgenerator.report_title=.*/jmeter.reportgenerator.report_title=${PR_TITLE}/" apache-jmeter-5.6.2/bin/user.properties
+          echo "After sed:"
+          cat apache-jmeter-5.6.2/bin/user.properties
           
           
       - name: Run JMeter Test
@@ -58,9 +66,11 @@ jobs:
           mkdir -p artifacts
           mv .github/results.jtl artifacts/
 
+
       - name: Clear Report Folder
         run: |
           rm -rf ./report-output
+
 
       - name: Generate Report
         run: |
