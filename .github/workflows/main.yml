@@ -58,6 +58,10 @@ jobs:
           mkdir -p artifacts
           mv .github/results.jtl artifacts/
 
+      - name: Clear Report Folder
+        run: |
+          rm -rf ./report-output
+
       - name: Generate Report
         run: |
           ls -l
