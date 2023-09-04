@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   run_performance_tests:
@@ -13,10 +16,7 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Asia/Kolkata"
-      
-      - name: Debug PR Event
-        run: |
-          echo "PR Event: ${{ toJson(github.event) }}"
+     
           
       - name: Configure Git Identity
         run: |
