@@ -1,7 +1,7 @@
 name: PerfAction for JMeter
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -22,7 +22,6 @@ jobs:
         run: |
           git config --global user.email "sushantjha39@gmail.com"
           git config --global user.name "sushantjha39@"
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -35,15 +34,12 @@ jobs:
         run: |
           PR_CREATOR="${{ github.event.pull_request.user.login }}"
           echo "PR Creator: $PR_CREATOR"
-
       - name: Fetch PR Title
         id: pr_info
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"       
-
-
       - name: Download and Install JMeter
         run: |
           wget -q https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
@@ -56,21 +52,19 @@ jobs:
           sed -i '/^#.*jmeter.reportgenerator.report_title/s/^#//' apache-jmeter-5.6.2/bin/user.properties
           cat apache-jmeter-5.6.2/bin/user.properties          
           sed -i "s/^jmeter.reportgenerator.report_title=.*/jmeter.reportgenerator.report_title=${PR_TITLE}/" apache-jmeter-5.6.2/bin/user.properties
-          echo "jmeter.reportgenerator.report_title=Performance Test Report by ${{ env.PR_CREATOR }}" apache-jmeter-5.6.2/bin/user.properties
           echo "After sed:"
           cat apache-jmeter-5.6.2/bin/user.properties
           
           
       - name: Run JMeter Test
         run: |
-          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./Adduser.jmx -l .github/results.jtl
+          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./search.jmx -l .github/results.jtl
         working-directory: ${{ github.workspace }}
 
       - name: Save Result in GitHub Folder
         run: |
           mkdir -p artifacts
           mv .github/results.jtl artifacts/
-
       - name: Generate Report
         run: |
           java -jar ./apache-jmeter-5.6.2/bin/ApacheJMeter.jar -g ./artifacts/results.jtl -o ./report-output
